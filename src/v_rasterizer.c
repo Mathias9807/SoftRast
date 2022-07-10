@@ -57,7 +57,7 @@ void V_RasterizeTriangle(float v[3][2], char r, char g, char b) {
 
 		// Fill this whole line
 		for (int x = ceil(xToScr(leftPoint[0])); x < xToScr(rightPoint[0]); x++) {
-			V_SetPixel(x, y, r, b, g);
+			V_SetPixel(x, y, r, g, b);
 		}
 	}
 
@@ -72,7 +72,7 @@ void V_RasterizeTriangle(float v[3][2], char r, char g, char b) {
 
 		// Fill this whole line
 		for (int x = ceil(xToScr(leftPoint[0])); x < xToScr(rightPoint[0]); x++) {
-			V_SetPixel(x, y, r, b, g);
+			V_SetPixel(x, y, r, g, b);
 		}
 	}
 }

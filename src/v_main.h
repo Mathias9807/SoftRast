@@ -12,9 +12,14 @@
 
 extern SDL_Surface* window;
 
+extern float V_viewOffs[2];
+extern float V_viewScale[2];
+
 void V_Init();
 void V_Tick();
 void V_SetPixel(int x, int y, int r, int g, int b);
+void V_SetRow(int y, int r, int g, int b);
+void V_ClearScreen(int r, int g, int b);
 void V_Quit();
 
 void V_RasterizeTriangle(float v[3][2], char r, char g, char b);

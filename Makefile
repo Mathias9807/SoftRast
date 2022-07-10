@@ -1,6 +1,6 @@
 OUT=softrast
 
-SOURCES=src/main.c src/v_main.c src/v_rasterizer.c
+SOURCES=src/main.c src/v_main.c src/v_rasterizer.c src/g_main.c
 
 INCLUDES=-I./include -I./src
 
