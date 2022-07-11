@@ -16,6 +16,20 @@ void lerp2(float *a, float *b, float *r, float p) {
 	r[1] = a[1] * (1 - p) + b[1] * p;
 }
 
+void V_DrawTriangles(float* v, size_t n, float x, float y, char r, char g, char b) {
+	float tri[3][2] = {0};
+	for (int i = 0; i < n; i++) {
+		float* vTri = v + i * sizeof(float[3][2]);
+		tri[0][0] = vTri[0 * 2 + 0] + x;
+		tri[0][1] = vTri[0 * 2 + 1] + y;
+		tri[1][0] = vTri[1 * 2 + 0] + x;
+		tri[1][1] = vTri[1 * 2 + 1] + y;
+		tri[2][0] = vTri[2 * 2 + 0] + x;
+		tri[2][1] = vTri[2 * 2 + 1] + y;
+		V_RasterizeTriangle(tri, r, g, b);
+	}
+}
+
 void V_RasterizeTriangle(float v[3][2], char r, char g, char b) {
 	// Split the triangle in half by its middle point, then render each half individually
 	// Find the vertical point order

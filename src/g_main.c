@@ -1,14 +1,26 @@
 #include "g_main.h"
+#include "g_ent_player.h"
 
+
+List g_entities;
+
+Entity* player;
 
 void G_Init() {
+	ListAdd(&g_entities, player = G_CreatePlayer());
 }
 
 void G_Tick() {
-	if (pressedButtons & IN_UP) V_viewOffs[1] -= 8 * gameDelta;
-	if (pressedButtons & IN_DOWN) V_viewOffs[1] += 8 * gameDelta;
-	if (pressedButtons & IN_LEFT) V_viewOffs[0] += 8 * gameDelta;
-	if (pressedButtons & IN_RIGHT) V_viewOffs[0] -= 8 * gameDelta;
+	for (ListEntry* e = g_entities.first; e; e = e->next)
+		G_EntityTick((Entity*) e->value);
+}
+
+void G_EntityTick(Entity* e) {
+	if (e->tick) e->tick(e);
+}
+
+void G_EntityRender(Entity* e) {
+	if (e->render) e->render(e);
 }
 
 void G_Quit() {

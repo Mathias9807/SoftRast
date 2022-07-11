@@ -22,6 +22,7 @@ void V_SetRow(int y, int r, int g, int b);
 void V_ClearScreen(int r, int g, int b);
 void V_Quit();
 
+void V_DrawTriangles(float* v, size_t n, float x, float y, char r, char g, char b);
 void V_RasterizeTriangle(float v[3][2], char r, char g, char b);
 
 float xToScr(float x);

@@ -2,7 +2,7 @@
 #define __G_MAIN_H__
 
 
-#include <math.h>
+#include "def.h"
 
 #include "v_main.h"
 
@@ -17,9 +17,21 @@
 extern int pressedButtons;
 extern float gameDelta;
 
+typedef struct EntityStruct {
+	float x;
+	float y;
+
+	void (*tick)(struct EntityStruct*);
+	void (*render)(struct EntityStruct*);
+	void (*destroy)(struct EntityStruct*);
+} Entity;
+
+extern List g_entities;
 
 void G_Init();
 void G_Tick();
+void G_EntityTick(Entity* e);
+void G_EntityRender(Entity* e);
 void G_Quit();
 
 

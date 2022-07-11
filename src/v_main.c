@@ -1,4 +1,5 @@
 #include "v_main.h"
+#include "g_main.h"
 
 
 SDL_Surface* window;
@@ -13,26 +14,15 @@ void V_Init() {
 
 	V_viewOffs[0] = 0;
 	V_viewOffs[1] = 0;
-	V_viewScale[0] = 10;
-	V_viewScale[1] = 10;
+	V_viewScale[0] = 8;
+	V_viewScale[1] = 8;
 }
 
 void V_Tick() {
 	V_ClearScreen(0, 0, 0);
 
-	float gray[][2] = {
-		{-0.5, 0}, {0.5, 0}, {0, 1.5},
-	};
-	float blue[][2] = {
-		{-0.25, 0.35}, {0.25, 0.35}, {0, 1.5},
-	};
-	float black[][2] = {
-		{-0.1, 1}, {0.1, 1}, {0, 1.5},
-	};
-
-	V_RasterizeTriangle(gray, 0x33, 0x33, 0x33);
-	V_RasterizeTriangle(blue, 0, 0, 0xAA);
-	V_RasterizeTriangle(black, 0x11, 0x11, 0x11);
+	for (ListEntry* e = g_entities.first; e; e = e->next)
+		G_EntityRender((Entity*) e->value);
 }
 
 void V_SetPixel(int x, int y, int r, int g, int b) {
