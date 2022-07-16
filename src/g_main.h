@@ -14,14 +14,27 @@
 #define IN_A		(1 << 4)
 #define IN_B		(1 << 5)
 
+extern int heldButtons;
 extern int pressedButtons;
 extern float gameDelta;
+extern float gameClock;
+
+typedef enum {
+	ENT_NULL = 0,
+	ENT_PLAYER,
+	ENT_LINEAR,
+	ENT_BULLET
+} EntType;
 
 typedef struct EntityStruct {
+	EntType type;
 	float x;
 	float y;
+	float size;
+	bool dying;
 
 	void (*tick)(struct EntityStruct*);
+	void (*collision)(struct EntityStruct*, struct EntityStruct*);
 	void (*render)(struct EntityStruct*);
 	void (*destroy)(struct EntityStruct*);
 } Entity;
@@ -32,6 +45,7 @@ void G_Init();
 void G_Tick();
 void G_EntityTick(Entity* e);
 void G_EntityRender(Entity* e);
+void G_EntityDestroy(Entity* e);
 void G_Quit();
 
 

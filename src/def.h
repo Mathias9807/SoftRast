@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
+#include <time.h>
 #include <ctype.h>
 #include "math.h"
 #ifndef M_PI

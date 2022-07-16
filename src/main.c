@@ -8,13 +8,16 @@
 
 #define FRAMERATE 60
 
+int heldButtons = 0;
 int pressedButtons = 0;
 
 float gameDelta = 0;
+float gameClock = 0;
 
 SDL_Joystick* joystick;
 
 int main() {
+	srand(time(NULL));
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
 	V_Init();
 	G_Init();
@@ -27,37 +30,59 @@ int main() {
 
 	bool running = true;
 	SDL_Event event;
+	int prevHeldButtons;
 	while (running) {
 		startOfFrame = SDL_GetTicks();
+		gameClock = startOfFrame / 1000.0;
 
 		G_Tick();
 
 		V_Tick();
 
+		prevHeldButtons = heldButtons;
 		if (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_JOYBUTTONDOWN:
-				if (event.jbutton.button == 0) pressedButtons |= IN_B;
-				if (event.jbutton.button == 1) pressedButtons |= IN_A;
+				if (event.jbutton.button == 0) heldButtons |= IN_B;
+				if (event.jbutton.button == 1) heldButtons |= IN_A;
 				
 				break;
 			case SDL_JOYBUTTONUP:
-				if (event.jbutton.button == 0) pressedButtons &= ~IN_B;
-				if (event.jbutton.button == 1) pressedButtons &= ~IN_A;
+				if (event.jbutton.button == 0) heldButtons &= ~IN_B;
+				if (event.jbutton.button == 1) heldButtons &= ~IN_A;
 				
 				break;
 			case SDL_JOYHATMOTION:
-				pressedButtons &= ~(IN_UP | IN_DOWN | IN_LEFT | IN_RIGHT);
-				if (event.jhat.value & SDL_HAT_UP) pressedButtons |= IN_UP;
-				if (event.jhat.value & SDL_HAT_DOWN) pressedButtons |= IN_DOWN;
-				if (event.jhat.value & SDL_HAT_LEFT) pressedButtons |= IN_LEFT;
-				if (event.jhat.value & SDL_HAT_RIGHT) pressedButtons |= IN_RIGHT;
+				heldButtons &= ~(IN_UP | IN_DOWN | IN_LEFT | IN_RIGHT);
+				if (event.jhat.value & SDL_HAT_UP) heldButtons |= IN_UP;
+				if (event.jhat.value & SDL_HAT_DOWN) heldButtons |= IN_DOWN;
+				if (event.jhat.value & SDL_HAT_LEFT) heldButtons |= IN_LEFT;
+				if (event.jhat.value & SDL_HAT_RIGHT) heldButtons |= IN_RIGHT;
+				break;
+			case SDL_KEYDOWN:
+				if (event.key.keysym.sym == SDLK_u) heldButtons |= IN_A;
+				if (event.key.keysym.sym == SDLK_o) heldButtons |= IN_B;
+
+				if (event.key.keysym.sym == SDLK_w) heldButtons |= IN_UP;
+				if (event.key.keysym.sym == SDLK_s) heldButtons |= IN_DOWN;
+				if (event.key.keysym.sym == SDLK_a) heldButtons |= IN_LEFT;
+				if (event.key.keysym.sym == SDLK_d) heldButtons |= IN_RIGHT;
+				break;
+			case SDL_KEYUP:
+				if (event.key.keysym.sym == SDLK_u) heldButtons &= ~IN_A;
+				if (event.key.keysym.sym == SDLK_o) heldButtons &= ~IN_B;
+
+				if (event.key.keysym.sym == SDLK_w) heldButtons &= ~IN_UP;
+				if (event.key.keysym.sym == SDLK_s) heldButtons &= ~IN_DOWN;
+				if (event.key.keysym.sym == SDLK_a) heldButtons &= ~IN_LEFT;
+				if (event.key.keysym.sym == SDLK_d) heldButtons &= ~IN_RIGHT;
 				break;
 			case SDL_QUIT:
 				running = false;
 				break;
 			}
 		}
+		pressedButtons = heldButtons & ~prevHeldButtons;
 
 		SDL_Flip(window);
 

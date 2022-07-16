@@ -19,7 +19,7 @@ void lerp2(float *a, float *b, float *r, float p) {
 void V_DrawTriangles(float* v, size_t n, float x, float y, char r, char g, char b) {
 	float tri[3][2] = {0};
 	for (int i = 0; i < n; i++) {
-		float* vTri = v + i * sizeof(float[3][2]);
+		float* vTri = v + i * 3 * 2;
 		tri[0][0] = vTri[0 * 2 + 0] + x;
 		tri[0][1] = vTri[0 * 2 + 1] + y;
 		tri[1][0] = vTri[1 * 2 + 0] + x;
