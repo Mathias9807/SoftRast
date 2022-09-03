@@ -19,7 +19,7 @@ SDL_Joystick* joystick;
 
 int main() {
 	srand(time(NULL));
-	L_InitLogger(0);
+	L_InitLogger(1);
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
 	V_Init();
 	G_Init();

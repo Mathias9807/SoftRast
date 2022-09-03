@@ -11,10 +11,11 @@ void L_InitLogger(int level) {
 }
 
 void logFunc(FILE* file, int level, const char* format, va_list argv) {
-	printf("[%5.2f]: ", gameClock);
+	if (level >= logLevel) {
+		printf("[%5.2f]: ", gameClock);
 
-	if (level >= logLevel)
 		vfprintf(file, format, argv);
+	}
 }
 
 
