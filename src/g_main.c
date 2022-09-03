@@ -25,6 +25,7 @@ void G_Tick() {
 	while (cur) {
 		Entity* e = cur->value;
 		if (e->dying) {
+			printf("Deleting dead entity\n");
 			cur = cur->next;
 			G_EntityDestroy(e);
 			continue;
@@ -35,6 +36,8 @@ void G_Tick() {
 	// Spawn enemies every 5s
 	static int lastSpawn = 0;
 	if (gameClock - lastSpawn > 5) {
+		printf("Spawning enemies\n");
+
 		float speed = 5;
 		float x = (float) rand() / RAND_MAX * 20 - 10;
 		float y = 10;
@@ -56,16 +59,17 @@ void G_EntityRender(Entity* e) {
 }
 
 void G_EntityDestroy(Entity* e) {
+	printf("Destroying entity %d\n", e->type);
+
 	if (e->destroy) e->destroy(e);
-	else {
-		int i = ListFind(&g_colliders, e);
-		if (i >= 0) ListRemove(&g_colliders, i);
 
-		i = ListFind(&g_entities, e);
-		if (i >= 0) ListRemove(&g_entities, i);
+	int i = ListFind(&g_colliders, e);
+	if (i >= 0) ListRemove(&g_colliders, i);
 
-		free(e);
-	}
+	i = ListFind(&g_entities, e);
+	if (i >= 0) ListRemove(&g_entities, i);
+
+	free(e);
 }
 
 void G_Quit() {

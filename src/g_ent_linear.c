@@ -27,7 +27,6 @@ Entity* G_CreateLinear(float x, float y, float vx, float vy) {
 	l->e.tick = tick;
 	l->e.collision = collision;
 	l->e.render = render;
-	l->e.destroy = destroy;
 
 	ListAdd(&g_colliders, l);
 
@@ -57,15 +56,5 @@ static void render(Entity* this) {
 	};
 
 	V_DrawTriangles((float*) green, 1, this->x, this->y, 0x33, 0xAA, 0x44);
-}
-
-static void destroy(Entity* this) {
-	int i = ListFind(&g_colliders, this);
-	ListRemove(&g_colliders, i);
-
-	i = ListFind(&g_entities, this);
-	ListRemove(&g_entities, i);
-
-	free(this);
 }
 

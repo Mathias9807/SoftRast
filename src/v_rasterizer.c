@@ -16,6 +16,20 @@ void lerp2(float *a, float *b, float *r, float p) {
 	r[1] = a[1] * (1 - p) + b[1] * p;
 }
 
+void V_DrawTrianglesScaled(float* v, size_t n, float x, float y, char r, char g, char b, float sx, float sy) {
+	float tri[3][2] = {0};
+	for (int i = 0; i < n; i++) {
+		float* vTri = v + i * 3 * 2;
+		tri[0][0] = sx * vTri[0 * 2 + 0] + x;
+		tri[0][1] = sy * vTri[0 * 2 + 1] + y;
+		tri[1][0] = sx * vTri[1 * 2 + 0] + x;
+		tri[1][1] = sy * vTri[1 * 2 + 1] + y;
+		tri[2][0] = sx * vTri[2 * 2 + 0] + x;
+		tri[2][1] = sy * vTri[2 * 2 + 1] + y;
+		V_RasterizeTriangle(tri, r, g, b);
+	}
+}
+
 void V_DrawTriangles(float* v, size_t n, float x, float y, char r, char g, char b) {
 	float tri[3][2] = {0};
 	for (int i = 0; i < n; i++) {

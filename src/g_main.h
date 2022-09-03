@@ -5,6 +5,7 @@
 #include "def.h"
 
 #include "v_main.h"
+#include "g_collider.h"
 
 
 #define IN_UP		(1 << 0)
@@ -23,11 +24,14 @@ typedef enum {
 	ENT_NULL = 0,
 	ENT_PLAYER,
 	ENT_LINEAR,
-	ENT_BULLET
+	ENT_BULLET,
+	ENT_RAY
 } EntType;
 
 typedef struct EntityStruct {
 	EntType type;
+	ColliderShape collider;
+
 	float x;
 	float y;
 	float size;
@@ -44,6 +48,7 @@ extern List g_entities;
 void G_Init();
 void G_Tick();
 void G_EntityTick(Entity* e);
+void G_EntityCollision(Entity* a, Entity* b);
 void G_EntityRender(Entity* e);
 void G_EntityDestroy(Entity* e);
 void G_Quit();

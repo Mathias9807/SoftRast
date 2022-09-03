@@ -7,7 +7,6 @@
 static void tick();
 static void collision();
 static void render();
-static void destroy();
 
 Entity* G_CreateBullet(float x, float y, float* polys, int numPolys, float r, float g, float b, float vx, float vy, float damage, Entity* parent) {
 	BulletEntity* bullet = calloc(sizeof(BulletEntity), 1);
@@ -49,15 +48,5 @@ static void collision(Entity* this, Entity* c) {
 static void render(Entity* e) {
 	BulletEntity* b = (BulletEntity*) e;
 	V_DrawTriangles(b->polys, b->numPolys, b->e.x, b->e.y, b->col[0], b->col[1], b->col[2]);
-}
-
-static void destroy(Entity* this) {
-	int i = ListFind(&g_colliders, this);
-	ListRemove(&g_colliders, i);
-
-	i = ListFind(&g_entities, this);
-	ListRemove(&g_entities, i);
-
-	free(this);
 }
 

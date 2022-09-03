@@ -1,6 +1,7 @@
 #include "g_ent_player.h"
 
 #include "g_ent_bullet.h"
+#include "g_ent_ray.h"
 #include "g_collider.h"
 #include "v_main.h"
 
@@ -25,7 +26,7 @@ Entity* G_CreatePlayer() {
 	p->render = render;
 	p->collision = collision;
 
-	ListAdd(&g_colliders, bullet);
+	ListAdd(&g_colliders, p);
 
 	return p;
 }
@@ -35,6 +36,7 @@ static void tick(Entity* p) {
 	if (heldButtons & IN_RIGHT) p->x += 12 * gameDelta;
 
 	if (pressedButtons & IN_A) ListAdd(&g_entities, G_CreateBullet(p->x, p->y, bullet, 2, 0xEE, 0xEE, 0x22, 0, 20, 10, p));
+	if (pressedButtons & IN_B) ListAdd(&g_entities, G_CreateRay(0xEE, 0xEE, 0x22, 10, p));
 }
 
 static void collision(Entity* this, Entity* c) {
