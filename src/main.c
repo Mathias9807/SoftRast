@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "logger.h"
 #include "v_main.h"
 #include "g_main.h"
 
@@ -18,6 +19,7 @@ SDL_Joystick* joystick;
 
 int main() {
 	srand(time(NULL));
+	L_InitLogger(0);
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
 	V_Init();
 	G_Init();
@@ -93,7 +95,7 @@ int main() {
 		frames++;
 		if (now - lastSecond > 1000) {
 			lastSecond = now;
-			printf("Frames per second: %d\n", frames);
+			L_Log("Frames per second: %d\n", frames);
 			frames = 0;
 		}
 

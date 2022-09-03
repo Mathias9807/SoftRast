@@ -2,6 +2,7 @@
 #include "g_collider.h"
 #include "g_ent_player.h"
 #include "g_ent_linear.h"
+#include "logger.h"
 
 
 List g_entities;
@@ -25,7 +26,7 @@ void G_Tick() {
 	while (cur) {
 		Entity* e = cur->value;
 		if (e->dying) {
-			printf("Deleting dead entity\n");
+			L_LogLevel(0, "Deleting dead entity\n");
 			cur = cur->next;
 			G_EntityDestroy(e);
 			continue;
@@ -36,7 +37,7 @@ void G_Tick() {
 	// Spawn enemies every 5s
 	static int lastSpawn = 0;
 	if (gameClock - lastSpawn > 5) {
-		printf("Spawning enemies\n");
+		L_LogLevel(0, "Spawning enemies\n");
 
 		float speed = 5;
 		float x = (float) rand() / RAND_MAX * 20 - 10;
@@ -59,7 +60,7 @@ void G_EntityRender(Entity* e) {
 }
 
 void G_EntityDestroy(Entity* e) {
-	printf("Destroying entity %d\n", e->type);
+	L_LogLevel(0, "Destroying entity %d\n", e->type);
 
 	if (e->destroy) e->destroy(e);
 
